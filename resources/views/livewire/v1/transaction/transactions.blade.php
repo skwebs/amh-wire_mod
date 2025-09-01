@@ -21,20 +21,18 @@
         </x-header-all>
         @if ($customer->type == 'credit_card')
             <div wire:loading.class="opacity-40" wire:target="setFilter" class="flex w-full justify-center gap-2 py-1">
-                <flux:button wire:loading.attr="disabled" wire:click="setFilter('previous')"
-                    @class([
-                        'px-4 rounded text-xs py-1 cursor-pointer',
-                        'bg-blue-600 text-white' => $filter === 'previous',
-                        'bg-gray-200 text-gray-600' => $filter !== 'previous',
-                    ])>
+                <flux:button wire:loading.attr="disabled" wire:click="setFilter('previous')" @class([
+                    'px-4 rounded text-xs py-1 cursor-pointer',
+                    'bg-blue-600 text-white' => $filter === 'previous',
+                    'bg-gray-200 text-gray-600' => $filter !== 'previous',
+                ])>
                     Previous
                 </flux:button>
-                <flux:button wire:loading.attr="disabled" wire:click="setFilter('current')"
-                    @class([
-                        'px-4 rounded text-xs py-1 cursor-pointer',
-                        'bg-blue-600 text-white' => $filter === 'current',
-                        'bg-gray-200 text-gray-600' => $filter !== 'current',
-                    ])>
+                <flux:button wire:loading.attr="disabled" wire:click="setFilter('current')" @class([
+                    'px-4 rounded text-xs py-1 cursor-pointer',
+                    'bg-blue-600 text-white' => $filter === 'current',
+                    'bg-gray-200 text-gray-600' => $filter !== 'current',
+                ])>
                     Current
                 </flux:button>
 
@@ -60,12 +58,14 @@
         <div>
             @if ($customer->type == 'credit_card')
                 <div class="text-center text-sm">
-                    <span class="font-semibold text-red-600">{{ $previousExpenses }}</span>
-                    <span class="font-semibold text-green-600"> - {{ $currentPayments }}</span>
-                    <span class="font-semibold text-amber-600"> = {{ $previousExpenses - $currentPayments }}</span> +
-                    <span class="text-xl font-semibold text-red-600"> {{ $currentExpenses }}</span> =
+                    <span class="font-semibold text-red-600">{{ number_format($previousExpenses, 2) }}</span>
+                    <span class="font-semibold text-green-600"> - {{ number_format($currentPayments, 2) }}</span>
+                    <span class="font-semibold text-amber-600"> =
+                        {{ number_format($previousExpenses - $currentPayments, 2) }}</span> +
+                    <span class="text-xl font-semibold text-red-600"> {{ number_format($currentExpenses, 2) }}</span> =
                     <span class="font-semibold text-red-600">
-                        {{ $previousExpenses + $currentExpenses - $currentPayments }}</span>
+                        {{ number_format($previousExpenses + $currentExpenses - $currentPayments, 2) }}
+                    </span>
                 </div>
             @endif
         </div>
@@ -153,10 +153,10 @@
 
     <x-slot:footer>
         <div class="flex w-full justify-around gap-4 border-t bg-white p-4">
-            <a href="{{ route('customer.transaction.create', ['customer' => $customer, 'type' => 'd']) }}"
-                wire:navigate class="flex-grow rounded bg-red-600 px-4 py-2 text-center text-white">You Gave ₹</a>
-            <a href="{{ route('customer.transaction.create', ['customer' => $customer, 'type' => 'c']) }}"
-                wire:navigate class="flex-grow rounded bg-green-700 px-4 py-2 text-center text-white">You Got ₹</a>
+            <a href="{{ route('customer.transaction.create', ['customer' => $customer, 'type' => 'd']) }}" wire:navigate
+                class="flex-grow rounded bg-red-600 px-4 py-2 text-center text-white">You Gave ₹</a>
+            <a href="{{ route('customer.transaction.create', ['customer' => $customer, 'type' => 'c']) }}" wire:navigate
+                class="flex-grow rounded bg-green-700 px-4 py-2 text-center text-white">You Got ₹</a>
         </div>
     </x-slot:footer>
 </x-wrapper-layout>

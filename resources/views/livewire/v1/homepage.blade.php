@@ -29,14 +29,13 @@
 
                 <div
                     class="{{ $creditCardsExpenses < 0 ? 'bg-red-100' : 'bg-green-100' }} flex items-center rounded-b-md border border-red-600 px-2 text-sm text-white">
-                    <span class="mr-1 text-red-600">{{ $totalPreviousDebit }} </span>
-                    <span class="mr-1 text-green-600"> - {{ $totalCurrentCredit }}</span>
+                    <span class="mr-1 text-red-600">{{ number_format($totalPreviousDebit, 2) }}</span>
+                    <span class="mr-1 text-green-600"> - {{ number_format($totalCurrentCredit, 2) }}</span>
                     <span class="mr-1 text-amber-600"> =
-                        {{ $totalPreviousDebit - $totalCurrentCredit }}</span>
-                    <span class="mr-1 text-red-600">+ {{ $totalCurrentDebit }}</span>
+                        {{ number_format($totalPreviousDebit - $totalCurrentCredit, 2) }}</span>
+                    <span class="mr-1 text-red-600">+ {{ number_format($totalCurrentDebit, 2) }}</span>
                     <span class="text-red-600">
-                        =
-                        {{ $totalPreviousDebit - $totalCurrentCredit + $totalCurrentDebit }}
+                        = {{ number_format($totalPreviousDebit - $totalCurrentCredit + $totalCurrentDebit, 2) }}
                     </span>
                 </div>
 
@@ -54,8 +53,8 @@
         <div class="mt-4">
             <div class="mb-2 flex justify-between text-base font-semibold">
                 <h2>Recent Transactions</h2>
-                <a href="{{ route('transactions') }}" wire:navigate
-                    class="block justify-end text-sm text-blue-600">View All Transactions</a>
+                <a href="{{ route('transactions') }}" wire:navigate class="block justify-end text-sm text-blue-600">View
+                    All Transactions</a>
             </div>
             @if ($transactions->isEmpty())
                 <p class="text-sm text-gray-600">No transactions found.</p>
